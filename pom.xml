@@ -69,4 +69,17 @@ This project is the virtual project that includes all core subprojects.
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
   </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version> <!-- Update this if needed -->
+        <configuration>
+          <source>17</source> <!-- Or higher, depending on your JDK version -->
+          <target>17</target> <!-- Or higher, depending on your JDK version -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
