@@ -59,14 +59,12 @@ public abstract class AbstractSection {
     /**
      * Logger.
      */
-    private static final Logger LOG =
-        Logger.getLogger(AbstractSection.class.getName());
+    private static final Logger LOG = Logger.getLogger(AbstractSection.class.getName());
 
     /**
      * System newline separator.
      */
-    private static final String LINE_SEPARATOR =
-	System.getProperty("line.separator");
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private Map<String, String> mAry;
 
@@ -78,7 +76,7 @@ public abstract class AbstractSection {
     }
 
     /**
-     * @param id the string to generate
+     * @param id     the string to generate
      * @param indent the current indentation
      * @return the generated string
      */
@@ -91,18 +89,21 @@ public abstract class AbstractSection {
      * put them as comments at the end of the file.
      * Hint: use a second Map to compare with the used keys.
      *
-    * @param filename the file name
-     * @param indent the current indentation
+     * @param filename           the file name
+     * @param indent             the current indentation
      * @param outputLostSections true if lost sections are to be written
      */
     public void write(String filename, String indent,
-		      boolean outputLostSections) {
+            boolean outputLostSections) {
+
+        FileReader f = new FileReader(filename);
+        FileWriter fw = new FileWriter(filename + ".out");
         try {
-            FileReader f = new FileReader(filename);
+
             BufferedReader fr = new BufferedReader(f);
             // TODO: This is using the default platform character encoding
             // specifying an encoding will produce more predictable results
-            FileWriter fw = new FileWriter(filename + ".out");
+
             String line = "";
             line = fr.readLine();
             while (line != null) {
@@ -120,8 +121,8 @@ public abstract class AbstractSection {
                             if (line == null) {
                                 throw new EOFException(
                                         "Reached end of file while looking "
-                                        + "for the end of section with ID = \""
-                                        + sectionId + "\"!");
+                                                + "for the end of section with ID = \""
+                                                + sectionId + "\"!");
                             }
                             endSectionId = getSectId(line);
                         } while (endSectionId == null);
@@ -146,17 +147,19 @@ public abstract class AbstractSection {
                 while (itr.hasNext()) {
                     Map.Entry entry = (Map.Entry) itr.next();
                     fw.write(indent + "// section " + entry.getKey()
-			     + " begin" + LINE_SEPARATOR);
+                            + " begin" + LINE_SEPARATOR);
                     fw.write((String) entry.getValue());
                     fw.write(indent + "// section " + entry.getKey()
-			     + " end" + LINE_SEPARATOR);
+                            + " end" + LINE_SEPARATOR);
                 }
                 fw.write("*/");
             }
-            fr.close();
-            fw.close();
+
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Error: " + e.toString());
+        } finally {
+            fr.close();
+            fw.close();
         }
     }
 
@@ -168,8 +171,7 @@ public abstract class AbstractSection {
             // TODO: This is using the default platform character encoding
             // specifying an encoding will produce more predictable results
             FileReader f = new FileReader(filename);
-            try(BufferedReader fr = new BufferedReader(f)) {
-
+            try (BufferedReader fr = new BufferedReader(f)) {
 
                 String line = "";
                 StringBuilder content = new StringBuilder();
