@@ -96,9 +96,8 @@ public abstract class AbstractSection {
     public void write(String filename, String indent,
             boolean outputLostSections) {
 
-        FileReader f = new FileReader(filename);
-        FileWriter fw = new FileWriter(filename + ".out");
-        try {
+        try (FileReader f = new FileReader(filename);
+                FileWriter fw = new FileWriter(filename + ".out");) {
 
             BufferedReader fr = new BufferedReader(f);
             // TODO: This is using the default platform character encoding
@@ -156,11 +155,7 @@ public abstract class AbstractSection {
             }
 
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Error: " + e.toString());
-        } finally {
-            fr.close();
-            fw.close();
-        }
+            LOG.log(Level.SEVERE, "Error: " + e.toString());        
     }
 
     /**
